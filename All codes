@@ -36,6 +36,85 @@ BinaryTreeNode<int>* searchInBST(BinaryTreeNode<int> *root , int k){
         return searchInBST(root->right,k);
     }
 }
+int getMax(BinaryTreeNode<int>*root)
+{
+    if(root==NULL)
+    {
+        return INT_MIN;
+    }
+    return max(root->data,max(getMax(root->left),getMax(root->right)));
+}
+int getMin(BinaryTreeNode<int>*root)
+{
+    
+    if(root==NULL)
+    {
+        return INT_MAX;
+    }
+    return min(root->data,min(getMin(root->left),getMin(root->right)));
+}
+bool isBST1(BinaryTreeNode<int> *root){
+    //Have to check root data with the max of left subtree and min of right subtree
+    //But complexity bad as har baar max min and isBST nikalna padh raha
+    if(root==NULL)
+    {
+        return true;
+    }
+    int maxi=getMax(root->left);
+    int mini=getMin(root->right);
+    bool left=isBST1(root->left);
+    bool right=isBST1(root->right);
+    if(root->data>maxi&&root->data<=mini&&left&&right)
+    {
+        return true;
+    }
+    else 
+    {
+        return false;
+    }
+}
+class isBSTreturn
+{
+    public:
+    bool isBST;
+    int maximum;
+    int minimum;
+};
+isBSTreturn isBST2(BinaryTreeNode<int>*root)
+{
+    if(root==NULL)
+    {
+        isBSTreturn output;
+        output.isBST=true;
+        output.maximum=INT_MIN;
+        output.minimum=INT_MAX;
+        return output;
+    }
+    isBSTreturn left=isBST2(root->left);
+    isBSTreturn right=isBST2(root->right);
+    int maxi=max(root->data,max(left.maximum,right.maximum));
+    int mini=min(root->data,min(left.minimum,right.minimum));
+    isBSTreturn answer;
+    answer.maximum=maxi;
+    answer.minimum=mini;
+    answer.isBST=root->data>mini&&root->data<=maxi&&left.isBST&&right.isBST;
+    return answer;
+}
+bool isBst3(BinaryTreeNode<int>*root,int max=INT_MAX,int min=INT_MIN)
+{
+    //See nb for explaination
+    if(root==NULL)
+    {
+        return true;
+    }
+    if(root->data<min || root->data>max)
+    {
+        return false;
+    }
+    bool isLeft=isBst3(root->left,root->data-1,min);
+    bool isRight=isBst3(root->right,max,root->data);
+    return isLeft&&isRight;
+}
 
 void elementsInRangeK1K2(BinaryTreeNode<int>* root, int k1, int k2) {
     /* Don't write main().
