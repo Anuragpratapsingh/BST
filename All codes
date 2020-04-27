@@ -1,0 +1,67 @@
+// Following is the Binary Tree node structure
+/**************
+class BinaryTreeNode {
+    public : 
+    T data;
+    BinaryTreeNode<T> *left;
+    BinaryTreeNode<T> *right;
+
+    BinaryTreeNode(T data) {
+        this -> data = data;
+        left = NULL;
+        right = NULL;
+    }
+};
+***************/
+BinaryTreeNode<int>* searchInBST(BinaryTreeNode<int> *root , int k){
+    /* Don't write main().
+     * Don't read input, it is passed as function argument.
+     * Return output and don't print it.
+     * Taking input and printing output is handled automatically.
+     */
+    if(root==NULL)
+    {
+        return NULL;
+    }
+    if(root->data==k)
+    {
+        return root;
+    }
+    if(root->data>k)
+    {
+        return searchInBST(root->left,k);
+    }
+    else if(root->data<k)
+    {
+        return searchInBST(root->right,k);
+    }
+}
+
+void elementsInRangeK1K2(BinaryTreeNode<int>* root, int k1, int k2) {
+    /* Don't write main().
+     * Don't read input, it is passed as function argument.
+     * Print output and don't return it.
+     * Taking input is handled automatically.
+     */
+    if(root==NULL)
+    {
+        return;
+    }
+    if(root->data>=k1 && root->data<=k2)
+    {
+        elementsInRangeK1K2(root->left,k1,k2);
+        //As want to print in ascending order answers tabhi pehle left then root then right print
+        cout<<root->data<<" ";
+        elementsInRangeK1K2(root->right,k1,k2);
+    }
+    if(root->data<k1)
+    {
+      //Then left mei toh k1 se bhi chote honge
+         elementsInRangeK1K2(root->right,k1,k2);
+    }
+    if(root->data>k2)
+    {
+        //Right mei k2 se bhi bade honge
+        elementsInRangeK1K2(root->left,k1,k2);
+    }
+}
