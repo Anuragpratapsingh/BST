@@ -115,6 +115,19 @@ bool isBst3(BinaryTreeNode<int>*root,int max=INT_MAX,int min=INT_MIN)
     bool isRight=isBst3(root->right,max,root->data);
     return isLeft&&isRight;
 }
+BinaryTreeNode<int>* constructTree(int *input,int si,int ei) 
+{
+    if(si>ei)
+    {
+        return NULL;
+    }
+    int mid=(si+ei)/2;
+    //Important to make the root dynamically as loop ke baad scope na khatm ho jaye
+     BinaryTreeNode<int>*root=new BinaryTreeNode<int>(input[mid]);
+    root->left=constructTree(input,si,mid-1);
+    root->right=constructTree(input,mid+1,ei);
+    return root;
+}
 
 void elementsInRangeK1K2(BinaryTreeNode<int>* root, int k1, int k2) {
     /* Don't write main().
