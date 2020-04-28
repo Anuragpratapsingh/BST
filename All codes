@@ -157,3 +157,60 @@ void elementsInRangeK1K2(BinaryTreeNode<int>* root, int k1, int k2) {
         elementsInRangeK1K2(root->left,k1,k2);
     }
 }
+//BST to sorted linked list
+template <typename T>
+ class Node{
+    public:
+    T data;
+    Node<T> *next;
+    
+    Node(T data){
+        this -> data = data;
+        this -> next = NULL;
+    }
+ };
+ class Pair
+{
+public:
+	Node<int>*head;
+	Node<int>*tail;
+};
+Pair constructBST2(BinaryTreeNode<int>*root)
+{
+	if(root==NULL)
+	{
+		Pair nulli;
+		nulli.head=NULL;
+		nulli.tail=NULL;
+		return nulli;
+	}
+	Node<int>*roothead=new Node<int>(root->data);
+	Pair leftSide=constructBST2(root->left);
+	Pair rightSide=constructBST2(root->right);
+    Pair answer;
+    if(leftSide.tail!=NULL)
+    {
+        leftSide.tail->next=roothead;
+    }
+    if(leftSide.head!=NULL)
+    {
+        answer.head=leftSide.head;
+    }
+    else
+    {
+        answer.head=roothead;
+    }
+    if(rightSide.head!=NULL)
+    {
+        roothead->next=rightSide.head;   
+    }
+    if(rightSide.tail!=NULL)
+    {    
+        answer.tail=rightSide.tail;
+    }
+    else
+    {
+        answer.tail=roothead;
+    }   
+    return answer;
+}
