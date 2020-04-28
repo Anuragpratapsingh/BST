@@ -214,3 +214,66 @@ Pair constructBST2(BinaryTreeNode<int>*root)
     }   
     return answer;
 }
+//Both methods are same.Just the return type is different
+vector<int> path2(BinaryTreeNode<int>*root,int k)
+{
+    if(root==NULL)
+    {
+        vector<int>empty;
+        return empty;
+    }
+    if(root->data==k)
+    {
+        vector<int>ans;
+        ans.push_back(root->data);
+        return ans;
+    }
+    //Instead of calling both left and right simultaneously can first call the left and check if path is there like in the next solution path
+    vector<int>leftvector=path2(root->left,k);
+    vector<int>rightvector=path2(root->right,k);
+    //Jahaa se bhi path aaya usmei apna data add karke return kardo
+    if(leftvector.empty()&rightvector.empty())
+    {
+        vector<int>empty2;
+        return empty2;
+    }
+    else if(rightvector.size()==0 && leftvector.size()!=0)
+    {
+        leftvector.push_back(root->data);
+        return leftvector;
+    }
+    else
+    {
+        rightvector.push_back(root->data);
+        return rightvector;  
+    }  
+}
+vector<int>* path(BinaryTreeNode<int>*root,int k)
+{
+    if(root==NULL)
+    {
+        return NULL;
+    }
+    if(root->data==k)
+    {
+        vector<int>*ans=new vector<int>();
+        ans->push_back(root->data);
+        return ans;
+    }
+    vector<int>*leftvector=path(root->left,k);
+    if(leftvector!=NULL)
+    {
+        leftvector->push_back(root->data);
+        return leftvector;
+    }
+    vector<int>*rightvector=path(root->right,k);
+    if(rightvector!=NULL)
+    {
+        rightvector->push_back(root->data);
+        return rightvector;  
+    }
+    else
+    {
+        return NULL;
+    }
+}
